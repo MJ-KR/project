@@ -2,6 +2,7 @@ import { IsInt, Min, Max, IsIn } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PrefectureHelper } from '../../constants/transaction-prefecture';
 import { EstateType } from '../../constants/transaction-type';
+import { InvalidQueryParameterException } from '../../../common/exceptions/invalid-query-parameter-exception';
 
 export class TransactionQueryDto {
   @Type(() => Number)
@@ -25,8 +26,8 @@ export class TransactionQueryDto {
   type: number;
 
   public toKey(): string {
-    // TODO change to customException
-    if (!this.year && !this.prefectureCode && !this.type) throw new Error();
+    if (!this.year && !this.prefectureCode && !this.type)
+      throw new InvalidQueryParameterException();
 
     return `${this.year}-${this.prefectureCode}-${this.type}`;
   }
