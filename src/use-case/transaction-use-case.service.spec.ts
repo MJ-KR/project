@@ -41,7 +41,7 @@ describe('TransactionUseCaseService', () => {
     dto.prefectureCode = 13;
     dto.type = 1;
 
-    const fakeTransaction = new Transaction('13', '東京都', [
+    const fakeTransaction = new Transaction('13', '東京都', '1', [
       new Years(2015, 324740),
     ]);
     mockRepository.findOne.mockReturnValue(fakeTransaction);
