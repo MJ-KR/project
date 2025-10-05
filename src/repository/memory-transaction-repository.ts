@@ -49,7 +49,7 @@ export class MemoryTransactionRepository implements TransactionRepository {
     });
   }
 
-  findOne(): Transaction {
-    throw new Error('Method not implemented.');
+  findOne(key: string): Transaction | undefined {
+    return this.store.get(key) ?? undefined;
   }
 }
