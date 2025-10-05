@@ -6,6 +6,7 @@ import {
 import { TransactionRepository } from './transaction-repository.interface';
 import { readFileSync } from 'node:fs';
 import { join } from 'path';
+import { JsonFileReadException } from '../common/exceptions/json-file-read-exception';
 
 export class MemoryTransactionRepository implements TransactionRepository {
   private readonly store: Map<string, Transaction> = new Map<
@@ -22,8 +23,17 @@ export class MemoryTransactionRepository implements TransactionRepository {
       process.cwd(),
       'assets/json/estate_transactions.json',
     );
-    const rawData = readFileSync(filePath, 'utf-8');
-    const jsonArray = JSON.parse(rawData) as EstateTransactionJson[];
+
+    let rawData: string;
+    let jsonArray: EstateTransactionJson[];
+
+    try {
+      rawData = readFileSync(filePath, 'utf-8');
+      jsonArray = JSON.parse(rawData) as EstateTransactionJson[];
+    } catch (err) {
+      // 파일 없음 / 파싱 오류 등을 전용 예외로 감싸서 throw
+      throw new JsonFileReadException(filePath, err);
+    }
 
     // データ変換後、storeに保存
     jsonArray.forEach((item) => {
