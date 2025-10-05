@@ -1,6 +1,7 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { TOKENS } from '../common/config/tokens';
 import type { TransactionRepository } from '../repository/transaction-repository.interface';
+import { TransactionQueryDto } from '../domain/dto/request/transaction-query-dto';
 
 @Injectable()
 export class TransactionUseCaseService {
@@ -9,7 +10,15 @@ export class TransactionUseCaseService {
     private readonly repository: TransactionRepository,
   ) {}
 
-  findOne() {
-    this.repository.findOne();
+  findOne(dto: TransactionQueryDto) {
+    const result = this.repository.findOne(dto.toKey());
+
+    if (result === undefined) {
+      // TODO change to customException
+      throw new NotFoundException('not found transaction data');
+    }
+
+    // TODO convert to DTO
+    return result;
   }
 }
