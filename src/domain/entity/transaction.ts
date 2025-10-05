@@ -26,6 +26,7 @@ export class Transaction {
   constructor(
     private prefectureCode: string,
     private PrefectureName: string,
+    private type: string,
     private years: Years[],
   ) {}
 }

@@ -28,7 +28,6 @@ export class MemoryTransactionRepository implements TransactionRepository {
     // データ変換後、storeに保存
     jsonArray.forEach((item) => {
       const { year, prefectureCode, type } = item;
-      const prefectureName = item.data.result.prefectureName;
 
       // Years[]変換
       const years = item.data.result.years.map(
@@ -37,8 +36,9 @@ export class MemoryTransactionRepository implements TransactionRepository {
 
       // Transaction作成
       const transaction = new Transaction(
-        String(prefectureCode),
-        prefectureName,
+        item.data.result.prefectureCode,
+        item.data.result.prefectureName,
+        item.data.result.type,
         years,
       );
 
