@@ -17,16 +17,40 @@ export interface EstateTransactionJson {
 
 export class Years {
   constructor(
-    private year: number,
-    private value: number,
+    private _year: number,
+    private _value: number,
   ) {}
+
+  get year(): number {
+    return this._year;
+  }
+
+  get value(): number {
+    return this._value;
+  }
 }
 
 export class Transaction {
   constructor(
-    private prefectureCode: string,
-    private PrefectureName: string,
-    private type: string,
-    private years: Years[],
+    private _prefectureCode: string,
+    private _PrefectureName: string,
+    private _type: string,
+    private _years: Years[],
   ) {}
+
+  get prefectureCode(): string {
+    return this._prefectureCode;
+  }
+
+  get PrefectureName(): string {
+    return this._PrefectureName;
+  }
+
+  get type(): string {
+    return this._type;
+  }
+
+  get years(): Years[] {
+    return this._years;
+  }
 }
