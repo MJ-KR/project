@@ -1,16 +1,18 @@
-import { IsInt, Min, Max, IsIn } from 'class-validator';
+import { IsInt, Min, Max, IsIn, IsDefined } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PrefectureHelper } from '../../constants/transaction-prefecture';
 import { EstateType } from '../../constants/transaction-type';
 import { InvalidQueryParameterException } from '../../../common/exceptions/invalid-query-parameter-exception';
 
 export class TransactionQueryDto {
+  @IsDefined({ message: 'yearは必須です' })
   @Type(() => Number)
   @IsInt()
   @Min(2015, { message: 'yearは2015以上で指定してください' })
   @Max(2018, { message: 'yearは2018以下で指定してください' })
   year: number;
 
+  @IsDefined({ message: 'prefectureCodeは必須です' })
   @Type(() => Number)
   @IsInt()
   @IsIn(PrefectureHelper.getPrefectureCodes('kanto'), {
@@ -18,6 +20,7 @@ export class TransactionQueryDto {
   })
   prefectureCode: number;
 
+  @IsDefined({ message: 'typeは必須です' })
   @Type(() => Number)
   @IsInt()
   @IsIn([EstateType.RESIDENTIAL, EstateType.COMMERCIAL], {
